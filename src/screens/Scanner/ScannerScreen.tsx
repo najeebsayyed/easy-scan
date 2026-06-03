@@ -12,7 +12,9 @@ export default function ScannerScreen() {
       const result = await DocumentScanner.scanDocument();
 
       if (result?.scannedImages && result.scannedImages.length > 0) {
-        setScannedImage(result.scannedImages[0]);
+        navigation.navigate('Preview', {
+          imageUri: result.scannedImages[0],
+        });
       } else {
         // User cancelled scanner
         navigation.navigate('Home');
