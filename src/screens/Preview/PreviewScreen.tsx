@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, Alert } from 'react-native';
 
 import ScreenHeader from '../../components/ScreenHeader';
 import FormatChip from '../../components/FormatChip';
@@ -11,6 +11,7 @@ import JpgIcon from '../../assets/icons/jpg.svg';
 import PngIcon from '../../assets/icons/png.svg';
 import DownloadIcon from '../../assets/icons/download.svg';
 
+import ImageResizer from '@bam.tech/react-native-image-resizer';
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 
 export default function PreviewScreen({ route }) {
@@ -21,25 +22,47 @@ export default function PreviewScreen({ route }) {
 
   const handleSave = async () => {
     try {
+      let savedFormat = '';
+
       if (selectedFormat === 'JPG') {
         await CameraRoll.save(scannedImages[selectedPage], {
           type: 'photo',
           album: 'DocScanner',
         });
+
+        savedFormat = 'JPG';
       }
 
       if (selectedFormat === 'PNG') {
-        // Save PNG version
+        const pngImage = await ImageResizer.createResizedImage(
+          scannedImages[selectedPage],
+          2000,
+          2000,
+          'PNG',
+          100,
+        );
+
+        await CameraRoll.save(pngImage.uri, {
+          type: 'photo',
+          album: 'DocScanner',
+        });
+
+        savedFormat = 'PNG';
       }
 
       if (selectedFormat === 'PDF') {
-        // Generate PDF and save
+        Alert.alert('Coming Soon', 'PDF export is not implemented yet.');
+        return;
       }
 
-      alert('Document saved successfully');
+      Alert.alert(
+        'Saved Successfully',
+        `Document saved as ${savedFormat} in gallery.`,
+      );
     } catch (error) {
       console.log(error);
-      alert('Failed to save document');
+
+      Alert.alert('Save Failed', 'Unable to save document. Please try again.');
     }
   };
 
