@@ -11,11 +11,37 @@ import JpgIcon from '../../assets/icons/jpg.svg';
 import PngIcon from '../../assets/icons/png.svg';
 import DownloadIcon from '../../assets/icons/download.svg';
 
+import { CameraRoll } from '@react-native-camera-roll/camera-roll';
+
 export default function PreviewScreen({ route }) {
   const { scannedImages } = route.params;
 
   const [selectedFormat, setSelectedFormat] = useState('PDF');
   const [selectedPage, setSelectedPage] = useState(0);
+
+  const handleSave = async () => {
+    try {
+      if (selectedFormat === 'JPG') {
+        await CameraRoll.save(scannedImages[selectedPage], {
+          type: 'photo',
+          album: 'DocScanner',
+        });
+      }
+
+      if (selectedFormat === 'PNG') {
+        // Save PNG version
+      }
+
+      if (selectedFormat === 'PDF') {
+        // Generate PDF and save
+      }
+
+      alert('Document saved successfully');
+    } catch (error) {
+      console.log(error);
+      alert('Failed to save document');
+    }
+  };
 
   return (
     <View className="flex-1 px-3">
@@ -61,7 +87,11 @@ export default function PreviewScreen({ route }) {
         </View>
 
         <View className="w-full mt-6">
-          <PrimaryButton title="Save Document" Icon={DownloadIcon} />
+          <PrimaryButton
+            title="Save Document"
+            Icon={DownloadIcon}
+            onPress={handleSave}
+          />
         </View>
       </View>
     </View>
