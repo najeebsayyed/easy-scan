@@ -93,9 +93,13 @@ export default function SaveDocument({ route }) {
 
         const pdfBytes = await pdfDoc.save();
 
-        const pdfPath = `${
-          RNFS.DownloadDirectoryPath
-        }/DocScanner_${Date.now()}.pdf`;
+        const folderPath = `${RNFS.DownloadDirectoryPath}/EasyScan`;
+
+        if (!(await RNFS.exists(folderPath))) {
+          await RNFS.mkdir(folderPath);
+        }
+
+        const pdfPath = `${folderPath}/DocScanner_${Date.now()}.pdf`;
 
         await RNFS.writeFile(
           pdfPath,
