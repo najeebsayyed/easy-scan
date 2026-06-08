@@ -6,12 +6,12 @@ import {
   TouchableOpacity,
   TextInputProps,
 } from 'react-native';
-import VisibilityIcon from '../../assets/icons/visibility.svg';
-import VisibilityOffIcon from '../../assets/icons/visibility_off.svg';
 import type { ReactNode } from 'react';
 
+import VisibilityIcon from '../assets/icons/visibility.svg';
+import VisibilityOffIcon from '../assets/icons/visibility_off.svg';
+
 type PrimaryInputProps = TextInputProps & {
-  label?: string;
   rightText?: string;
   onRightPress?: () => void;
   type?: 'text' | 'email' | 'password';
@@ -19,7 +19,6 @@ type PrimaryInputProps = TextInputProps & {
 };
 
 const PrimaryInput = ({
-  label,
   placeholder,
   value,
   onChangeText,
@@ -32,31 +31,13 @@ const PrimaryInput = ({
 }: PrimaryInputProps) => {
   const [secure, setSecure] = useState(type === 'password' || secureTextEntry);
 
-  const handleToggleSecure = () => setSecure(prev => !prev);
-
   return (
-    <View className="mb-7">
-      {/* Label Row */}
-      {label ? (
-        <View className="flex-row justify-between mb-2">
-          <Text className="text-primary dark:text-darkSecondary text-sm font-semibold">
-            {label}
-          </Text>
-
-          {rightText ? (
-            <TouchableOpacity onPress={onRightPress} activeOpacity={0.7}>
-              <Text className="text-textSecondary text-xm">{rightText}</Text>
-            </TouchableOpacity>
-          ) : null}
-        </View>
-      ) : null}
-
-      {/* Input Field */}
-      <View className="flex-row items-center border border-primary rounded-2xl px-4 py-1 bg-white">
-        {icon ? <View className="mr-2">{icon}</View> : null}
+    <View className="mb-4 mt-4 ">
+      <View className="flex-row items-center border border-[#64748B] rounded-2xl px-4 py-1 bg-white">
+        {icon && <View className="mr-2">{icon}</View>}
 
         <TextInput
-          className="flex-1 text-primary font-nunitoMedium text-sm h-12"
+          className="flex-1 text-black text-sm h-12"
           placeholder={placeholder}
           placeholderTextColor="#8FA39D"
           value={value}
@@ -67,13 +48,25 @@ const PrimaryInput = ({
           {...props}
         />
 
-        {/* Password Toggle */}
-        {type === 'password' ? (
-          <TouchableOpacity onPress={handleToggleSecure} activeOpacity={0.7}>
+        {type === 'password' && (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => setSecure(prev => !prev)}
+          >
             {secure ? <VisibilityOffIcon /> : <VisibilityIcon />}
           </TouchableOpacity>
-        ) : null}
+        )}
       </View>
+
+      {rightText && (
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={onRightPress}
+          className="self-end mt-2"
+        >
+          <Text className="text-primary font-bold text-sm">{rightText}</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
