@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "972376637529",
+    "project_id": "easy-scan-797fa",
+    "storage_bucket": "easy-scan-797fa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:972376637529:android:54bdfef84a92bd97477148",
+        "android_client_info": {
+          "package_name": "com.recipeos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqOACnRmFVqtNKnTCADBHVbPxpJyOFzSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
